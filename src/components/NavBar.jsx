@@ -1,5 +1,12 @@
+import reactLogo from "../assets/react.svg"
+
 function NavBar() {
-    return <h1>NavBar</h1>;
+    return <header>
+        <div className="flex mr-auto gap-x-2 font-semibold text-2xl">
+            <img src={reactLogo} alt="React Logo" />
+            React : Todo Lost
+        </div>
+    </header>
 }
 
 export default NavBar;
