@@ -1,12 +1,17 @@
 import { useState } from "react";
 
-const NewTask = () => {
+const NewTask = ({ addTask }) => {
     const [title, setTitle] = useState('');
 
     //func ที่เข้ามารองรับ form
     const submitForm = (e) => {
         e.preventDefault(); //เพื่อให้เวลา submit form เเล้วมันไม่ reset หน้า
-        console.log(title);
+        //สร้าง obj ชื่อ task ที่เก็บข้อมูล title , date 
+        const task = {
+            title, 
+            date: new Date().toLocaleString()
+        };
+        addTask(task); //เรียกใช้มันเพื่อจัดการกับ Task ที่สร้างขึ้น
     };
 
   return (
