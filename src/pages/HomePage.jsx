@@ -1,9 +1,11 @@
-
+import NewTask from "../components/NewTask"
 
 const HomePage = () => {
   return (
-    <div>HomePage</div>
-  )
-}
+    <>
+      <NewTask/>
+    </>
+  );
+};
 
-export default HomePage
+export default HomePage;
