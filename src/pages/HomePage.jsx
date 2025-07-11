@@ -13,7 +13,7 @@ const HomePage = () => {
       <NewTask addTask={addTask}/>
       <ul className="bg-gray-200 rounded-md shadow-sm p-4">
         {todos.map((todo, i)=> (
-            <TodoItem key={i} todo={todo}/>
+            <TodoItem key={i} id={i} todo={todo}/>
           ))}
       </ul>
     </>
