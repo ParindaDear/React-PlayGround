@@ -1,6 +1,14 @@
 import { MdDelete, MdEdit } from "react-icons/md";
+import { useRef } from "react";
 
 const TodoItem = (props) => {
+
+    const dialog = useRef();
+
+    const openModal = ()=> {
+        dialog.current.showModal();
+    };
+
   return (
     <>
         <li className="flex bg-white rounded shadow-sm p-4 mt-4 first:mt-0">
@@ -15,14 +23,21 @@ const TodoItem = (props) => {
             </div>
 
             <div className="flex items-center gap-x-2">
-                <button type="button" className="todo-btn">
+                <button onClick={openModal} type="button" className="todo-btn">
                     <MdDelete/>
                 </button>
-                <button type="button" className="todo-btn">
+                <button onClick={openModal} type="button" className="todo-btn">
                     <MdEdit/>
                 </button>
             </div>
         </li>
+
+        {/*จะเขียนเพื่อให้ไปค่อน delete กับ edit ทำงานได้*/}
+        <dialog ref={dialog}>
+            <form>
+                <h3>Modal</h3>
+            </form>
+        </dialog>
     </>
   );
 };
