@@ -1,11 +1,12 @@
 import { MdDelete, MdEdit } from "react-icons/md";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const TodoItem = (props) => {
-
     const dialog = useRef();
+    const [editing, setEditing] = useState(false) //เป็นตัวแปรที่เช็คว่าเราอยู่ใน mode การ edit เปล่า
 
-    const openModal = ()=> {
+    const openModal = (isEditing)=> {
+        isEditing ? setEditing(true) : setEditing(false);
         dialog.current.showModal();
     };
 
@@ -23,19 +24,38 @@ const TodoItem = (props) => {
             </div>
 
             <div className="flex items-center gap-x-2">
-                <button onClick={openModal} type="button" className="todo-btn">
+                <button onClick={()=> openModal(false)} type="button" className="todo-btn">
                     <MdDelete/>
                 </button>
-                <button onClick={openModal} type="button" className="todo-btn">
+                <button onClick={()=> openModal(true)} type="button" className="todo-btn">
                     <MdEdit/>
                 </button>
             </div>
         </li>
 
         {/*จะเขียนเพื่อให้ไปค่อน delete กับ edit ทำงานได้*/}
-        <dialog ref={dialog}>
-            <form>
-                <h3>Modal</h3>
+        <dialog ref={dialog} className="rounded-md w-[480px]">
+            <form className="p-6">
+                <h3 className="font-semibold text-xl">
+                    { editing ? "Edit Task" : "Do you want to delete? "}
+                </h3>
+                <div className="mt-2">
+                    { editing ? "edit" : "This view permanently delete this task."}
+                </div>
+                <div className="mt-2 text-end space-x-2">
+                    <button type="button" className="rounded border border-gray-200 px-3 py-2 hover:bg-gray-50">
+                        Close
+                    </button>
+                    <button type="submit" 
+                        className={
+                            editing 
+                                ? "rounded bg-teal-500 px-3 py-2 text-white hover:bg-teal-600" 
+                                : "rounded rounded bg-red-500 px-3 py-2 text-white hover:bg-red-600"
+                        }
+                    >
+                        { editing ? "Confirm" : "Delete" }
+                    </button>
+                </div>
             </form>
         </dialog>
     </>
