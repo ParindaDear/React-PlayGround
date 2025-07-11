@@ -1,21 +1,24 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 const NewTask = ({ addTask }) => {
-    const [title, setTitle] = useState('');
+    const title = useRef();
+    const form = useRef();
 
     //func ที่เข้ามารองรับ form
     const submitForm = (e) => {
         e.preventDefault(); //เพื่อให้เวลา submit form เเล้วมันไม่ reset หน้า
-        //สร้าง obj ชื่อ task ที่เก็บข้อมูล title , date 
+        
         const task = {
-            title, 
-            date: new Date().toLocaleString()
+            title: title.current.value,
+            date: new Date().toLocaleString(),
         };
-        addTask(task); //เรียกใช้มันเพื่อจัดการกับ Task ที่สร้างขึ้น
+        addTask(task);
+
+        form.current.reset(); //reset form
     };
 
   return (
-    <form onSubmit={submitForm}>
+    <form ref={form} onSubmit={submitForm}>
         <label htmlFor="title" className="text-lg text-gray-400">
             Add New Task
         </label>
@@ -28,8 +31,7 @@ const NewTask = ({ addTask }) => {
                 placeholder="Type Something here..." 
                 autoFocus 
                 required
-                value={title}//ไว้ตรวจจับค่า input 
-                onChange={(e)=> setTitle(e.target.value)}//เป็น func ไว้เข้าถึง event ใช้ในการอัปเดตค่าในตัวแปร title ทันทีเมื่อผู้ใช้กรอกข้อมูลใน input ฟิลด์
+                ref={title}
             />
             <button 
                 type="submit" 
