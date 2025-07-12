@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import NewTask from "../components/NewTask"
 import TodoItem from "../components/TodoItem";
 import Spinner from "../components/Spinner";
@@ -25,16 +25,56 @@ const HomePage = () => {
   const deleteTask = (id)=> {
     setTodos((prevTodos)=> prevTodos.filter((_, i)=>  i !== id));
     toast.success("Successfully Deleted!");
-    }
+  };
   
   //เพื่อให้ที่เรา edit task ไป ชื่อ task ใหม่จะเเสดงขึ้นจอหน้า home page ด้วย
   const updateTask  =  (task, id)=> {
-    setTodos((prevTodos)=> prevTodos.map((t, i)=> i === id ? task : t ));
+    setTodos((prevTodos)=> prevTodos.map((t, i)=> (i === id ? task : t )));
     toast.success("Successfully Updated!");
-  }
+  };
+
+  const [users, setUsers] = useState([])
+  useEffect(()=>{
+    const getData = async ()=> {
+      try {
+          setLoading(true)
+          const res = await fetch("https://jsonplaceholder.typicode.com/todos")
+          const data = await res.json();
+          setUsers(data)
+      } catch(error) {
+          console.log("Error ", error);
+      } finally {
+          setLoading(false);
+      }
+    };
+    getData();
+
+  }, [])
 
   return (
     <>
+      {loading ? (
+        <Spinner/>
+      ) : (
+        users.map((user, i)=> (
+          <div key={i}>
+             {user.id} {user.title}
+          </div>
+        ))
+      )}
+
+      <NewTask addTask={addTask} />
+
+      { loading ? (
+        <Spinner/>
+      ) : (
+        users.map((user, i)=> (
+          <div key={i}>
+            {user.id} {user.title}
+          </div>
+        ))
+      )}
+      
       <NewTask addTask={addTask}/>
 
       { loading ? (
