@@ -10,6 +10,11 @@ const TodoItem = (props) => {
         dialog.current.showModal();
     };
 
+    //สร้าง func สำหรับปิด Modal ทำให้เมื่อกด close ตัว Modal จะปิดไป
+    const closeModal = ()=> {
+        dialog.current.close()
+    }
+
   return (
     <>
         <li className="flex bg-white rounded shadow-sm p-4 mt-4 first:mt-0">
@@ -42,8 +47,11 @@ const TodoItem = (props) => {
                 <div className="mt-2">
                     { editing ? "edit" : "This view permanently delete this task."}
                 </div>
-                <div className="mt-2 text-end space-x-2">
-                    <button type="button" className="rounded border border-gray-200 px-3 py-2 hover:bg-gray-50">
+                <div className="mt-12 text-end space-x-2">
+                    <button 
+                        onClick={closeModal}
+                        type="button" 
+                        className="rounded border border-gray-200 px-3 py-2 hover:bg-gray-50">
                         Close
                     </button>
                     <button type="submit" 
