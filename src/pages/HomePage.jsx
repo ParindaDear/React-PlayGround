@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import NewTask from "../components/NewTask"
 import TodoItem from "../components/TodoItem";
+import Spinner from "../components/Spinner";
 
 const HomePage = () => {
-  const [ todos, setTodos ] = useState([]) //สร้าง array เปล่า (ให้ค่าเริ่มต้นเป็น array เปล่า) ซึ่งมันเป็น Read only array เราไม่สามารถเข้าไปแก้ไขค่าที่ array โดยตรงได้
-  const addTask = (task) => {
+  const [ todos, setTodos ] = useState([]); //สร้าง array เปล่า (ให้ค่าเริ่มต้นเป็น array เปล่า) ซึ่งมันเป็น Read only array เราไม่สามารถเข้าไปแก้ไขค่าที่ array โดยตรงได้
+  const [loading, setLoading] = useState(false); //สร้าง state ขึ้นมาว่าจะให้โหลด spinner ตอนไหน
+
+  //เพราะเราจะใส่ Spinner ที่หน้านี้
+  function delay() {
+    return new Promise((reslove)=> setTimeout(reslove, 300));
+  }
+
+  const addTask = async (task) => {
+    setLoading(true);
     setTodos((prevTodos)=> [...prevTodos, task]); //เลยต้องใช้ spread operator เพื่อสร้าง array ใหม่ที่รวมรายการเดิมกับ task ใหม่
+    await delay()
+    setLoading(false);
   };
 
   //ให้ปุ่ม delete ทำงานโดยเขียน func ให้ id ที่ตรงกันถูกลบไป
@@ -21,17 +32,24 @@ const HomePage = () => {
   return (
     <>
       <NewTask addTask={addTask}/>
-      <ul className="bg-gray-200 rounded-md shadow-sm p-4">
-        {todos.map((todo, i)=> (
-            <TodoItem 
-            key={i}
-            id={i}
-            todo={todo}
-            deleteTask={deleteTask}
-            updateTask={updateTask}
-            />
-          ))}
-      </ul>
+
+      { loading ? (
+        <Spinner/>
+      ) : (
+        todos.length > 0 && (
+          <ul className="bg-gray-200 rounded-md shadow-sm p-4">
+            {todos.map((todo, i)=> (
+                <TodoItem 
+                  key={i}
+                  id={i}
+                  todo={todo}
+                  deleteTask={deleteTask}
+                  updateTask={updateTask}
+                />
+              ))}
+          </ul>
+        )
+      )}
     </>
   );
 };
