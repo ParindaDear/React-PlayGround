@@ -10,6 +10,14 @@ const TodoItem = (props) => {
         dialog.current.showModal();
     };
 
+    //สร้าง func สำหรับทำให้การกดพื้นที่นอก Modal ก็สามารถทำการ close Modal ได้เหมือนกัน 
+    const clickOutSideModal = (e)=> {
+        if (e.target === dialog.current) {
+            closeModal()
+        }
+    }
+
+
     //สร้าง func สำหรับปิด Modal ทำให้เมื่อกด close ตัว Modal จะปิดไป
     const closeModal = ()=> {
         dialog.current.close()
@@ -39,7 +47,7 @@ const TodoItem = (props) => {
         </li>
 
         {/*จะเขียนเพื่อให้ไปค่อน delete กับ edit ทำงานได้*/}
-        <dialog ref={dialog} className="rounded-md w-[480px]">
+        <dialog ref={dialog} onClick={clickOutSideModal} className="rounded-md w-[480px]">
             <form className="p-6">
                 <h3 className="font-semibold text-xl">
                     { editing ? "Edit Task" : "Do you want to delete? "}
