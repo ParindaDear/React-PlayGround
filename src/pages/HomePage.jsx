@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 import NewTask from "../components/NewTask"
 import TodoItem from "../components/TodoItem";
 import Spinner from "../components/Spinner";
@@ -33,48 +33,8 @@ const HomePage = () => {
     toast.success("Successfully Updated!");
   };
 
-  const [users, setUsers] = useState([])
-  useEffect(()=>{
-    const getData = async ()=> {
-      try {
-          setLoading(true)
-          const res = await fetch("https://jsonplaceholder.typicode.com/todos")
-          const data = await res.json();
-          setUsers(data)
-      } catch(error) {
-          console.log("Error ", error);
-      } finally {
-          setLoading(false);
-      }
-    };
-    getData();
-
-  }, [])
-
   return (
     <>
-      {loading ? (
-        <Spinner/>
-      ) : (
-        users.map((user, i)=> (
-          <div key={i}>
-             {user.id} {user.title}
-          </div>
-        ))
-      )}
-
-      <NewTask addTask={addTask} />
-
-      { loading ? (
-        <Spinner/>
-      ) : (
-        users.map((user, i)=> (
-          <div key={i}>
-            {user.id} {user.title}
-          </div>
-        ))
-      )}
-      
       <NewTask addTask={addTask}/>
 
       { loading ? (
