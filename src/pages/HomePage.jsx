@@ -11,6 +11,11 @@ const HomePage = () => {
   //ให้ปุ่ม delete ทำงานโดยเขียน func ให้ id ที่ตรงกันถูกลบไป
   const deleteTask = (id)=> {
     setTodos((prevTodos)=> prevTodos.filter((_, i)=>  i !== id));
+    }
+  
+  //เพื่อให้ที่เรา edit task ไป ชื่อ task ใหม่จะเเสดงขึ้นจอหน้า home page ด้วย
+  const updateTask  =  (task, id)=> {
+    setTodos((prevTodos)=> prevTodos.map((t, i)=> i === id ? task : t ));
   }
 
   return (
@@ -18,7 +23,13 @@ const HomePage = () => {
       <NewTask addTask={addTask}/>
       <ul className="bg-gray-200 rounded-md shadow-sm p-4">
         {todos.map((todo, i)=> (
-            <TodoItem key={i} id={i} todo={todo} deleteTask={deleteTask} />
+            <TodoItem 
+            key={i}
+            id={i}
+            todo={todo}
+            deleteTask={deleteTask}
+            updateTask={updateTask}
+            />
           ))}
       </ul>
     </>

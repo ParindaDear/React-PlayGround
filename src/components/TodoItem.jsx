@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 
 const TodoItem = (props) => {
     const dialog = useRef();
+    const [title, setTitle] = useState(props.todo.title); 
     const [editing, setEditing] = useState(false) //เป็นตัวแปรที่เช็คว่าเราอยู่ใน mode การ edit เปล่า
 
     const openModal = (isEditing)=> {
@@ -12,7 +13,16 @@ const TodoItem = (props) => {
 
     const submitForm = (e)=> {
         e.preventDefault();
-        props.deleteTask(props.id)
+
+        if (editing){
+            const task = {
+                title: title,
+                date: props.todo.date
+            }
+            props.updateTask(task, props.id)
+        } else {
+            props.deleteTask(props.id);
+        }
         closeModal();
     }
 
@@ -59,7 +69,20 @@ const TodoItem = (props) => {
                     { editing ? "Edit Task" : "Do you want to delete? "}
                 </h3>
                 <div className="mt-2">
-                    { editing ? "edit" : "This view permanently delete this task."}
+                    { editing ? (
+                    <input 
+                        type="text" 
+                        className="focus:outline-none w-full border rounded py-2 px-3" 
+                        maxLength="30" 
+                        placeholder="Type Something here..." 
+                        autoFocus 
+                        required
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                    ) : (
+                        "This view permanently delete this task."
+                    )}
                 </div>
                 <div className="mt-12 text-end space-x-2">
                     <button 
