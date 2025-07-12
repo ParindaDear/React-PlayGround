@@ -6,6 +6,10 @@ import Footer from "../components/Footer";
 //Outlet เป็นตัวเเทนสิ่งที่อยู่กึ่งกลาง ซึ่งมันก็คือ Component ต่างๆที่อยู่ภายใน MainLayout (ดูใน App.jsx)
 import { Outlet } from "react-router-dom";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Slide } from "react-toastify";
+
 const MainLayout = () => {
   return (
     <>
@@ -16,6 +20,7 @@ const MainLayout = () => {
             </div>
         </main>
         <Footer />
+        <ToastContainer transition={Slide} />
     </>
   );
 };
